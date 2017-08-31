@@ -74,7 +74,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
                         uEmpId: empId
                     };
                     var sN = new SerNow('dev43073', 'sys_user', 'admin', 'BUCnMM5FWds8');
-                    gr.insert(obj).then(function (response) {
+                    sN.insert(obj).then(function (response) {
                         session.send("Your Details have been saved");
                     });
                     // var sN = new SerNow({
