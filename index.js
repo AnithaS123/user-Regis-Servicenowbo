@@ -1,14 +1,13 @@
-var fs = require('fs');
-var builder = require('botbuilder');
-var restify = require('restify');
-var apiai = require('apiai');
-var APIAII = apiai('1713551afad04759b3ca39e92f771774');
+const builder = require('botbuilder');
+const restify = require('restify');
+const apiai = require('apiai');
+const APIAII = apiai('1713551afad04759b3ca39e92f771774');
 const uuidv1 = require('uuid/v1')();
 require('dotenv-extended').load();
-var apiairecognizer = require('api-ai-recognizer');
+const apiairecognizer = require('api-ai-recognizer');
 const unhandledRejection = require("unhandled-rejection");
 // var request = require("request");
-var SerNow = require('servicenow-rest').gliderecord;
+const SerNow = require('servicenow-rest').gliderecord;
 
 let rejectionEmitter = unhandledRejection({
     timeout: 20
@@ -22,26 +21,26 @@ rejectionEmitter.on('rejectionHandled', (error, promise) => {
     fs.writeFileSync('./app.json', JSON.stringify(error), 'utf8');
 })
 
-var server = restify.createServer();
+let server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
-var connector = new builder.ChatConnector({
+let connector = new builder.ChatConnector({
     appId: '7194e74e-4a90-4d2d-925f-f408729ac779',
     appPassword: 'TZH8Kmo65HJYFiViFUj8VY8'
 });
 
 server.post('/', connector.listen());
 
-var bot = new builder.UniversalBot(connector, function (session) {
+let bot = new builder.UniversalBot(connector,  (session) => {
     // session.send("You said: %s", session.message.text);
     // session.send(JSON.stringify(session.message));
     // do check
     if (session.message.text) {
-        var request = APIAII.textRequest(session.message.text, {
+        let request = APIAII.textRequest(session.message.text, {
             sessionId: uuidv1
         });
-        request.on('response', function (response) {
+        request.on('response',  (response) => {
             let result = response.result;
             //do check
             session.send(JSON.stringify(result));
