@@ -1,13 +1,13 @@
-const builder = require('botbuilder');
-const restify = require('restify');
-const apiai = require('apiai');
+var builder = require('botbuilder');
+var restify = require('restify');
+var apiai = require('apiai');
 const APIAII = apiai('1713551afad04759b3ca39e92f771774');
-const uuidv1 = require('uuid/v1')();
+var uuidv1 = require('uuid/v1')();
 require('dotenv-extended').load();
-const apiairecognizer = require('api-ai-recognizer');
-const unhandledRejection = require("unhandled-rejection");
+let apiairecognizer = require('api-ai-recognizer');
+var unhandledRejection = require("unhandled-rejection");
 // var request = require("request");
-const SerNow = require('servicenow-rest').gliderecord;
+var SerNow = require('servicenow-rest').gliderecord;
 
 let rejectionEmitter = unhandledRejection({
     timeout: 20
