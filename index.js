@@ -53,51 +53,52 @@ var bot = new builder.UniversalBot(connector, function (session) {
             } else if (result.metadata.intentName == "User registration - yes") {
                 session.send(result.fulfillment.speech);
 
-            }
-
-            else if (result.metadata.intentName == "User registration - yes - yes") {
+            } else if (result.metadata.intentName == "User registration - yes - yes") {
                 let email = result.parameters["email"];
                 let fName = result.parameters["firstname"];
                 let lName = result.parameters["lastname"];
                 let empId = result.parameters["empId"];
-                // let password = result.parameters["password"];
-
-
-
+                let password = result.parameters["password"];
+                // let password = "john123"
                 // let userPassword= result.parameters["password"];
                 // let userNameintent= result.parameters["username"];
                 if (email != "" && fName !== "" && lName !== "" && empId !== "") {
                     var userdetails = {
                         email: email,
-                        uFirstName: fName,
-                        uLastName: lName,
-                        uEmpId: empId
+                        user_password: password,
+                        first_name: fName,
+                        last_name: lName,
+                        user_name: fName + "." + lName,
+                        employee_number: empId
                     };
-                    var sN = new SerNow('dev43073', 'sys_user', 'admin', 'BUCnMM5FWds8');
-
-
-                    
-                    sN.insert(obj).then(function (response) {
-                        session.send("Your Details have been saved");
-                    });
-                    // var sN = new SerNow({
-                    //     instance: 'dev24552',
-                    //     tablename: 'sys_user',
-                    //     user: 'admin',
-                    //     password: 'GcXuKjkVNSZq',
-                    //     v1: 'v1'
-                    // });
-
-
-
-                    // var sN = new SerNow('dev24552', 'sys_user', 'admin', 'GcXuKjkVNSZq', 'v1');
-                    // sN.insert(obj).then(function (response) {
-                    //     session.send('Thank for your patience , Make sure you can login to update the details.')
-                    // });
-
+                    var sNInserting = new SerNow('dev24552', 'sys_user', 'admin', 'tN7uuKZXmSfU');
+                    sNInserting.insert(userdetails).then(function (response) {
+                        // session.send("Device has successfully updated!!!");
+                        session.send(result.fulfillment.speech);
+                    })
                 } else {
                     session.send(result.fulfillment.speech);
                 }
+
+            } else if (result.metadata.intentName == "User registration - yes DeviceRegistration- yes") {
+                let deviceName = result.parameters["Dname"];
+                let mobileNum = result.parameters["mobileNumber"];
+                let devDes = result.parameters["description"];
+                session.send(result.fulfillment.speech);
+                if (deviceName != ""  && devDes !== "") {
+                    var deviceDetails = {
+                        // assigned_to: fName + " " + lName,
+                        name: deviceName,
+                        short_description: devDes
+                    };
+                    var sNDeviceInserting = new SerNow('dev24552', 'cmdb_ci_comm', 'admin', 'tN7uuKZXmSfU');
+                    sNDeviceInserting.insert(deviceDetails).then(function (response) {
+                        // session.send("Device has successfully updated!!!");
+                        session.send(result.fulfillment.speech);
+                    })
+                }
+            } else if (result.metadata.intentName == "User registration - yes DeviceRegistration- yes - no") {
+                session.send(result.fulfillment.speech);
             } else if (result.metadata.intentName == "Default Fallback Intent") {
                 session.send(result.fulfillment.speech);
             }
@@ -109,20 +110,3 @@ var bot = new builder.UniversalBot(connector, function (session) {
     }
 
 });
-
-// var sN = new serviceNow({
-//     instance: 'dev24552',
-//     tablename: 'sys_user',
-//     user: 'admin',
-//     password: 'GcXuKjkVNSZq',
-//     v1: 'v1'
-// });
-// sN.setReturnFields('number', 'short_description');
-// sN.addEncodedQuery('active=true');
-// sN.setLimit(10);
-
-// var port = process.env.PORT || 5000;
-// app.set('port', port);
-// app.listen(port, function () {
-//     console.log('Client server listening on port ' + port);
-// });
